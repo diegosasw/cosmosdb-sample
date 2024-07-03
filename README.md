@@ -11,6 +11,7 @@ Run CosmosDb emulator as a docker container
 docker run \
     --publish 8081:8081 \
     --publish 10250-10255:10250-10255 \
+    --env AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=127.0.0.1 \
     --name linux-cosmosdb-emulator \
     --detach \
     mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
