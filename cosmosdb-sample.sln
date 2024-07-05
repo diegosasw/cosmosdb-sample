@@ -7,6 +7,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{33E6AC38-D65
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosDbSample", "src\CosmosDbSample\CosmosDbSample.csproj", "{868CF982-C041-4F95-9CD0-C06B45273412}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sample", "sample", "{D491C8C5-1C77-4D96-9968-1FD59484E775}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7B594D2D-644B-47DB-9FEE-EADBEE1D5BBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosDbManager", "src\CosmosDbManager\CosmosDbManager.csproj", "{CA393DD8-8BD7-4917-8F36-468490098C94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CosmosDbManager.Tests", "test\CosmosDbManager.Tests\CosmosDbManager.Tests.csproj", "{A442ABC7-8173-4825-9765-2A74B36E4457}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -16,12 +24,22 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{868CF982-C041-4F95-9CD0-C06B45273412} = {33E6AC38-D658-4208-9808-A7CAFE6C5FEB}
+		{868CF982-C041-4F95-9CD0-C06B45273412} = {D491C8C5-1C77-4D96-9968-1FD59484E775}
+		{CA393DD8-8BD7-4917-8F36-468490098C94} = {33E6AC38-D658-4208-9808-A7CAFE6C5FEB}
+		{A442ABC7-8173-4825-9765-2A74B36E4457} = {7B594D2D-644B-47DB-9FEE-EADBEE1D5BBF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{868CF982-C041-4F95-9CD0-C06B45273412}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{868CF982-C041-4F95-9CD0-C06B45273412}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{868CF982-C041-4F95-9CD0-C06B45273412}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{868CF982-C041-4F95-9CD0-C06B45273412}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA393DD8-8BD7-4917-8F36-468490098C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA393DD8-8BD7-4917-8F36-468490098C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA393DD8-8BD7-4917-8F36-468490098C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA393DD8-8BD7-4917-8F36-468490098C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A442ABC7-8173-4825-9765-2A74B36E4457}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A442ABC7-8173-4825-9765-2A74B36E4457}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A442ABC7-8173-4825-9765-2A74B36E4457}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A442ABC7-8173-4825-9765-2A74B36E4457}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

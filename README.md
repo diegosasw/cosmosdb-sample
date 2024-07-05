@@ -5,8 +5,14 @@ CosmosDb Sample
 - SDK .NET 8
 - Docker for Windows
 
-## Steps
-Run CosmosDb emulator as a docker container
+## How to Use
+Run the functionality through the xUnit tests. The xUnit tests use a collection to spin up a CosmosDb emulator Docker 
+container using TestContainers.
+
+Alternatively, run the sample console application ensuring there is a CosmosDb already running in localhost
+
+### Run CosmosDb Container
+Run CosmosDb emulator as a docker container with the following docker command
 ```
 docker run \
     --publish 8081:8081 \
@@ -17,12 +23,12 @@ docker run \
     mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest
 ```
 
-Download the certificate from the container
+Experiment with downloading the certificate from the container
 ```
 curl -k https://localhost:8081/_explorer/emulator.pem > emulatorcert.crt
 ```
 
-With elevated permissions, add the certificate to the Trusted Root Certification Authorities
+and with adding the certificate to the Trusted Root Certification Authorities with elevated permissions
 ```
 certutil.exe -addstore root emulatorcert.crt
 ```
