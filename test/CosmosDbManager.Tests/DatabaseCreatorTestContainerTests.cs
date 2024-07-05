@@ -23,7 +23,9 @@ public class DatabaseCreatorTestContainerTests(TestContainerFixture testContaine
         var sut = new DatabaseCreatorTestContainer(cosmosClient);
         
         // When
-        testOutputHelper.WriteLine($"Attempting to create {databaseName}");
+        testOutputHelper.WriteLine(
+            $"Attempting to create {databaseName} " +
+            $"with connection string {testContainerFixture.CosmosDbConnectionString}");
         var exception = await Assert.ThrowsAsync<HttpRequestException>(() => sut.Create(databaseName));
         testOutputHelper.WriteLine("Attempt finished");
 
@@ -57,7 +59,9 @@ public class DatabaseCreatorTestContainerTests(TestContainerFixture testContaine
         var sut = new DatabaseCreatorTestContainer(cosmosClient);
         
         // When
-        testOutputHelper.WriteLine($"Attempting to create {databaseName}");
+        testOutputHelper.WriteLine(
+            $"Attempting to create {databaseName} " +
+            $"with connection string {testContainerFixture.CosmosDbConnectionString}");
         var result = await sut.Create(databaseName);
         testOutputHelper.WriteLine("Attempt finished");
 
