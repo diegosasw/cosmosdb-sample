@@ -9,6 +9,7 @@ public class TestContainerFixture
 {
     private CosmosDbContainer _cosmosDbContainer = null!;
     public string CosmosDbConnectionString { get; private set; } = null!;
+    public HttpClient CosmosDbHttpClient { get; private set; } = null!;
     
     public async Task InitializeAsync()
     {
@@ -19,6 +20,7 @@ public class TestContainerFixture
                 .Build();
         await _cosmosDbContainer.StartAsync();
         CosmosDbConnectionString = _cosmosDbContainer.GetConnectionString();
+        CosmosDbHttpClient = _cosmosDbContainer.HttpClient;
     }
 
     public Task DisposeAsync() => _cosmosDbContainer.StopAsync();

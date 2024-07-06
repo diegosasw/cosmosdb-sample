@@ -41,17 +41,7 @@ public class DatabaseCreatorTestContainerTests(TestContainerFixture testContaine
             new CosmosClientOptions
             {
                 ConnectionMode = ConnectionMode.Gateway,
-                HttpClientFactory = () =>
-                {
-                    var httpMessageHandler =
-                        new HttpClientHandler
-                        {
-                            ServerCertificateCustomValidationCallback =
-                                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-                        };
-                
-                    return new HttpClient(httpMessageHandler);
-                },
+                HttpClientFactory = () => testContainerFixture.CosmosDbHttpClient
             };
 
         var cosmosClient = new CosmosClient(testContainerFixture.CosmosDbConnectionString, cosmosClientOptions);
