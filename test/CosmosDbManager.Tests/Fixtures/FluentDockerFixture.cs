@@ -1,5 +1,6 @@
 using Ductus.FluentDocker.Builders;
 using Ductus.FluentDocker.Services;
+// ReSharper disable MemberCanBeMadeStatic.Global
 
 namespace CosmosDbManager.Tests.Fixtures;
 

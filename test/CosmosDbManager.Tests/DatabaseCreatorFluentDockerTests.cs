@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace CosmosDbManager.Tests;
 
-public class DatabaseCreatorFluentDockerTests(FluentDockerFixture fluentDockerFixture, ITestOutputHelper testOutputHelper)
+public class DatabaseCreatorFluentDockerTests(ITestOutputHelper testOutputHelper)
     : IClassFixture<FluentDockerFixture>
 {
     [Fact]
