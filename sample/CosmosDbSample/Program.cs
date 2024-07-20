@@ -30,7 +30,7 @@ var cosmosClient =
 
 try
 {
-    var databaseCreator = new DatabaseCreatorTestContainer(cosmosClient);
+    var databaseCreator = new CosmosService(cosmosClient);
     var result = await databaseCreator.Create("foo");
     Console.WriteLine(
         result.IsSuccessful 

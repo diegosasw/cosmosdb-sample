@@ -6,12 +6,22 @@ CosmosDb Sample
 - Docker for Windows
 
 ## How to Use
-Run the functionality through the xUnit tests. The xUnit tests use a collection to spin up a CosmosDb emulator Docker 
-container using TestContainers.
+Run automated tests with
+```
+dotnet test
+```
 
-Alternatively, run the sample console application ensuring there is a CosmosDb already running in localhost
+Alternatively, run only the tests which use the FluentDocker version of CosmosDb emulator with
+```
+dotnet test --filter "Category=FluentDockerEmulator"
+```
 
-### Run CosmosDb Container
+Or run only the tests which use the TestContainer version of CosmosDb emulator with
+```
+dotnet test --filter "Category=TestContainerEmulator"
+```
+
+## Implementation Details
 Run CosmosDb emulator as a docker container with the following docker command
 ```
 docker run \

@@ -21,13 +21,15 @@ public class FluentDockerFixture
                 .ExposePort(8081, 8081)
                 .ExposePortRange(10250, 10255)
                 .WithEnvironment(
-                    "AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=127.0.0.1")
+                    "AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=127.0.0.1",
+                    "AZURE_COSMOS_EMULATOR_ENABLE_DATA_PERSISTENCE=false",
+                    "AZURE_COSMOS_EMULATOR_PARTITION_COUNT=12")
                 .DeleteIfExists()
                 .RemoveVolumesOnDispose()
                 .WaitForHttps("https://localhost:8081/_explorer/emulator.pem", ignoreSslErrors: true)
                 .Build();
 
-        var container = _cosmosDbService.Start();
+        _ = _cosmosDbService.Start();
         return Task.CompletedTask;
     }
 

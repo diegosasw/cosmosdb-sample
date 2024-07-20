@@ -4,7 +4,8 @@ using Xunit.Abstractions;
 
 namespace CosmosDbManager.Tests;
 
-public class DatabaseCreatorFluentDockerTests(ITestOutputHelper testOutputHelper)
+[Trait("Category", "FluentDockerEmulator")]
+public class CosmosServiceFluentDockerTests(ITestOutputHelper testOutputHelper)
     : IClassFixture<FluentDockerFixture>
 {
     [Fact]
@@ -20,7 +21,7 @@ public class DatabaseCreatorFluentDockerTests(ITestOutputHelper testOutputHelper
         var cosmosClient = new CosmosClient(FluentDockerFixture.AccountEndpoint, FluentDockerFixture.AuthKeyOrResourceToken, cosmosClientOptions);
         var databaseName = Guid.NewGuid().ToString();
         
-        var sut = new DatabaseCreatorTestContainer(cosmosClient);
+        var sut = new CosmosService(cosmosClient);
         
         // When
         testOutputHelper.WriteLine($"Attempting to create {databaseName}");
@@ -54,11 +55,59 @@ public class DatabaseCreatorFluentDockerTests(ITestOutputHelper testOutputHelper
 
         var cosmosClient = new CosmosClient(FluentDockerFixture.AccountEndpoint, FluentDockerFixture.AuthKeyOrResourceToken, cosmosClientOptions);
         var databaseName = Guid.NewGuid().ToString();
-        var sut = new DatabaseCreatorTestContainer(cosmosClient);
+        var sut = new CosmosService(cosmosClient);
         
         // When
         testOutputHelper.WriteLine($"Attempting to create {databaseName}");
         var result = await sut.Create(databaseName);
+        testOutputHelper.WriteLine("Attempt finished");
+
+        // Then
+        Assert.True(result.IsSuccessful);
+    }
+    
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
+    public async Task Create_Containers_Should_Succeed(int testNumber)
+    {
+        testOutputHelper.WriteLine($"Test {testNumber}");
+        // Given
+        var cosmosClientOptions =
+            new CosmosClientOptions
+            {
+                ConnectionMode = ConnectionMode.Gateway,
+                HttpClientFactory = () =>
+                {
+                    var httpMessageHandler =
+                        new HttpClientHandler
+                        {
+                            ServerCertificateCustomValidationCallback =
+                                HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+                        };
+                
+                    return new HttpClient(httpMessageHandler);
+                },
+            };
+
+        var cosmosClient = new CosmosClient(FluentDockerFixture.AccountEndpoint, FluentDockerFixture.AuthKeyOrResourceToken, cosmosClientOptions);
+        var databaseName = Guid.NewGuid().ToString();
+        var containerName = $"container-{testNumber}";
+        var sut = new CosmosService(cosmosClient);
+        
+        // When
+        testOutputHelper.WriteLine(
+            $"Attempting to create {databaseName} " +
+            $"and container {containerName}");
+        var result = await sut.CreateContainer(databaseName, containerName);
         testOutputHelper.WriteLine("Attempt finished");
 
         // Then
