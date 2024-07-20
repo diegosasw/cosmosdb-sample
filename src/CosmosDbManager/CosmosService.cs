@@ -29,6 +29,30 @@ public class CosmosService
         var creatorResult = new CreatorResult(result.StatusCode is HttpStatusCode.OK or HttpStatusCode.Created);
         return creatorResult;
     }
+    
+    public async Task<CreatorResult> CreateContainers(string databaseName, string containerName, int numberOfContainers)
+    {
+        var databaseResult = await Create(databaseName);
+        if (!databaseResult.IsSuccessful)
+        {
+            return new CreatorResult(false);
+        }
+
+        var isAnyFailure = false;
+        for (var i = 1; i <= numberOfContainers; i++)
+        {
+            var result = await _cosmosClient.GetDatabase(databaseName).CreateContainerIfNotExistsAsync(containerName, "/id");
+            var isSuccess = result.StatusCode is HttpStatusCode.OK or HttpStatusCode.Created;
+            if (!isSuccess)
+            {
+                isAnyFailure = true;
+            }
+        }
+
+        return isAnyFailure 
+            ? new CreatorResult(false) 
+            : new CreatorResult(true);
+    }
 }
 
 public record CreatorResult(bool IsSuccessful);

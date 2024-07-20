@@ -71,7 +71,7 @@ public class CosmosServiceTestContainerTests(TestContainerFixture testContainerF
     [InlineData(8)]
     [InlineData(9)]
     [InlineData(10)]
-    public async Task Create_Containers_Should_Succeed(int testNumber)
+    public async Task Create_Container_Should_Succeed(int testNumber)
     {
         testOutputHelper.WriteLine($"Test {testNumber}");
         // Given
@@ -93,6 +93,44 @@ public class CosmosServiceTestContainerTests(TestContainerFixture testContainerF
             $"with connection string {testContainerFixture.CosmosDbConnectionString} " +
             $"and container {containerName}");
         var result = await sut.CreateContainer(databaseName, containerName);
+
+        // Then
+        Assert.True(result.IsSuccessful);
+    }
+    
+    [Theory(Skip = "It could cause problems in emulator")]
+    [InlineData(1, 5)]
+    [InlineData(2, 5)]
+    [InlineData(3, 5)]
+    [InlineData(4, 5)]
+    [InlineData(5, 5)]
+    [InlineData(6, 5)]
+    [InlineData(7, 5)]
+    [InlineData(8, 5)]
+    [InlineData(9, 5)]
+    [InlineData(10, 5)]
+    public async Task Create_Containers_Should_Succeed(int testNumber, int numberOfContainers)
+    {
+        testOutputHelper.WriteLine($"Test {testNumber}");
+        // Given
+        var cosmosClientOptions =
+            new CosmosClientOptions
+            {
+                ConnectionMode = ConnectionMode.Gateway,
+                HttpClientFactory = () => testContainerFixture.CosmosDbHttpClient
+            };
+
+        var cosmosClient = new CosmosClient(testContainerFixture.CosmosDbConnectionString, cosmosClientOptions);
+        var databaseName = Guid.NewGuid().ToString();
+        var containerName = $"container-{testNumber}";
+        var sut = new CosmosService(cosmosClient);
+        
+        // When
+        testOutputHelper.WriteLine(
+            $"Attempting to create {databaseName} " +
+            $"with connection string {testContainerFixture.CosmosDbConnectionString} " +
+            $"and container {containerName}");
+        var result = await sut.CreateContainers(databaseName, containerName, numberOfContainers);
 
         // Then
         Assert.True(result.IsSuccessful);
