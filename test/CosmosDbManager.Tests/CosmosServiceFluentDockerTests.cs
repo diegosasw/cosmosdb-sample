@@ -114,7 +114,7 @@ public class CosmosServiceFluentDockerTests(ITestOutputHelper testOutputHelper)
         Assert.True(result.IsSuccessful);
     }
     
-    [Theory(Skip = "It could cause problems in emulator")]
+    [Theory]
     [InlineData(1, 5)]
     [InlineData(2, 5)]
     [InlineData(3, 5)]
