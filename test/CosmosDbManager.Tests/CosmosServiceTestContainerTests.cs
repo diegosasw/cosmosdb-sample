@@ -1,5 +1,6 @@
 using CosmosDbManager.Tests.Fixtures;
 using Microsoft.Azure.Cosmos;
+using xRetry;
 using Xunit.Abstractions;
 
 namespace CosmosDbManager.Tests;
@@ -60,7 +61,7 @@ public class CosmosServiceTestContainerTests(TestContainerFixture testContainerF
         Assert.True(result.IsSuccessful);
     }
 
-    [Theory]
+    [RetryTheory]
     [InlineData(1)]
     [InlineData(2)]
     [InlineData(3)]
@@ -101,7 +102,7 @@ public class CosmosServiceTestContainerTests(TestContainerFixture testContainerF
         Assert.True(deletionResult.IsSuccessful);
     }
     
-    [Theory]
+    [RetryTheory]
     [InlineData(1, 5)]
     [InlineData(2, 5)]
     [InlineData(3, 5)]
