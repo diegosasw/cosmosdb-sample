@@ -9,16 +9,18 @@ public class FluentDockerFixture
 {
     private IContainerService? _cosmosDbService;
 
-    public static string AccountEndpoint => "https://localhost:8081";
+    private const int Port = 8081;
+    
+    public static string AccountEndpoint => $"https://localhost:{Port}";
     public static string AuthKeyOrResourceToken => "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==";
     
     public Task InitializeAsync()
-    { 
+    {
         _cosmosDbService =
             new Builder()
                 .UseContainer()
                 .UseImage("mcr.microsoft.com/cosmosdb/linux/azure-cosmos-emulator:latest")
-                .ExposePort(8081, 8081)
+                .ExposePort(Port, Port)
                 .ExposePortRange(10250, 10255)
                 .WithEnvironment(
                     "AZURE_COSMOS_EMULATOR_IP_ADDRESS_OVERRIDE=127.0.0.1",
@@ -26,7 +28,7 @@ public class FluentDockerFixture
                     "AZURE_COSMOS_EMULATOR_PARTITION_COUNT=12")
                 .DeleteIfExists()
                 .RemoveVolumesOnDispose()
-                .WaitForHttps("https://localhost:8081/_explorer/emulator.pem", ignoreSslErrors: true)
+                .WaitForHttps($"https://localhost:{Port}/_explorer/emulator.pem", ignoreSslErrors: true)
                 .Build();
 
         _ = _cosmosDbService.Start();

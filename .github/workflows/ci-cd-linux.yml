@@ -15,5 +15,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run .NET tests
-        run: dotnet test
+      - name: Run TestContainerEmulator .NET tests
+        run: dotnet test --filter "Category=TestContainerEmulator"
+        
+      - name: Run FluentDockerEmulator .NET tests
+        run: dotnet test --filter "Category=FluentDockerEmulator"
