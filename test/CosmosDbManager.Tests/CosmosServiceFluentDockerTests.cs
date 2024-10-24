@@ -107,11 +107,13 @@ public class CosmosServiceFluentDockerTests(ITestOutputHelper testOutputHelper)
         testOutputHelper.WriteLine(
             $"Attempting to create {databaseName} " +
             $"and container {containerName}");
-        var result = await sut.CreateContainer(databaseName, containerName);
+        var creationResult = await sut.CreateContainer(databaseName, containerName);
+        var deletionResult = await sut.DeleteContainer(databaseName, containerName);
         testOutputHelper.WriteLine("Attempt finished");
 
         // Then
-        Assert.True(result.IsSuccessful);
+        Assert.True(creationResult.IsSuccessful);
+        Assert.True(deletionResult.IsSuccessful);
     }
     
     [Theory]
@@ -155,9 +157,11 @@ public class CosmosServiceFluentDockerTests(ITestOutputHelper testOutputHelper)
         testOutputHelper.WriteLine(
             $"Attempting to create {databaseName} " +
             $"and container {containerName}");
-        var result = await sut.CreateContainers(databaseName, containerName, numberOfContainers);
+        var creationResult = await sut.CreateContainers(databaseName, containerName, numberOfContainers);
+        var deletionResult = await sut.DeleteContainer(databaseName, containerName);
 
         // Then
-        Assert.True(result.IsSuccessful);
+        Assert.True(creationResult.IsSuccessful);
+        Assert.True(deletionResult.IsSuccessful);
     }
 }

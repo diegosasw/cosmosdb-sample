@@ -11,31 +11,31 @@ public class CosmosService
     public CosmosService(CosmosClient cosmosClient)
         => _cosmosClient = cosmosClient;
     
-    public async Task<CreatorResult> Create(string databaseName)
+    public async Task<OperationResult> Create(string databaseName)
     {
         var result = await _cosmosClient.CreateDatabaseIfNotExistsAsync(databaseName);
-        var creatorResult = new CreatorResult(result.StatusCode is HttpStatusCode.OK or HttpStatusCode.Created);
+        var creatorResult = new OperationResult(result.StatusCode is HttpStatusCode.OK or HttpStatusCode.Created);
         return creatorResult;
     }
     
-    public async Task<CreatorResult> CreateContainer(string databaseName, string containerName)
+    public async Task<OperationResult> CreateContainer(string databaseName, string containerName)
     {
         var databaseResult = await Create(databaseName);
         if (!databaseResult.IsSuccessful)
         {
-            return new CreatorResult(false);
+            return new OperationResult(false);
         }
         var result = await _cosmosClient.GetDatabase(databaseName).CreateContainerIfNotExistsAsync(containerName, "/id");
-        var creatorResult = new CreatorResult(result.StatusCode is HttpStatusCode.OK or HttpStatusCode.Created);
+        var creatorResult = new OperationResult(result.StatusCode is HttpStatusCode.OK or HttpStatusCode.Created);
         return creatorResult;
     }
     
-    public async Task<CreatorResult> CreateContainers(string databaseName, string containerName, int numberOfContainers)
+    public async Task<OperationResult> CreateContainers(string databaseName, string containerName, int numberOfContainers)
     {
         var databaseResult = await Create(databaseName);
         if (!databaseResult.IsSuccessful)
         {
-            return new CreatorResult(false);
+            return new OperationResult(false);
         }
 
         var isAnyFailure = false;
@@ -50,9 +50,19 @@ public class CosmosService
         }
 
         return isAnyFailure 
-            ? new CreatorResult(false) 
-            : new CreatorResult(true);
+            ? new OperationResult(false) 
+            : new OperationResult(true);
+    }
+    
+    public async Task<OperationResult> DeleteContainer(string databaseName, string containerName)
+    {
+        var result = await _cosmosClient.GetDatabase(databaseName).GetContainer(containerName).DeleteContainerAsync();
+
+        var isSuccess = result.StatusCode is HttpStatusCode.OK or HttpStatusCode.NoContent;
+        return !isSuccess 
+            ? new OperationResult(false) 
+            : new OperationResult(true);
     }
 }
 
-public record CreatorResult(bool IsSuccessful);
+public record OperationResult(bool IsSuccessful);
